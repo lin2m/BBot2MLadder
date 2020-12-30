@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "redknight2020",
+  "private_key_id": "0bf74b103619833f434cb8ca170b00a9ed1ded1a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCW6MSJ3ORPUZWA\nMVfCjCitNxYZJSLVIHMoflfosTS4RLjXX9YDzOfg3ASHnJWyrWyxlsF6IVi2MA+C\nm78fQ37lQChi6lCRL79fe9M6UPaOJKoRuu9j7b3HG8ioCmLYvnrrtsh9xhLqOUPl\nd5C1OVfqLfLMnW7H2aTbOGafTmvwUIMB279N9fUFnY2lLPksVlJt+u4R47CcO5kN\nOwRulgHv1vZNYk8S80tDakfLDY2fxe6BMzDzZKUinemXdOXiDeNxf1VbmG9diSpB\nu1IQutPVk1xEQgRo1ryXoBppIZtag3pcuJtd9HqpLXvbBm4H40HmmDQ2CBYJfARh\ncXo8/N2vAgMBAAECggEADUSV0xEquZaQsF6mOqKcCO6o8LkFIPvjZBIHpJu/6NuR\n7M2uQVNIp8pwU4P+3WDGB68bf6Ni61G6a19KJHOIupszcc7sGne6OajnX18y7jhn\nA3wOBBko8FKPB8cx/aBxqju90OETVKiIQaqLfIN4KUy05iyJSuTly6hfzW3Vq6El\n7t2aGTlN0APzx9VwkxbLv9PZ9c5GZYnT771w6valoS+70CJzUiw3Famn6Af46vtr\nU9v+CIwyHzBnyEKO2fUoCeJq71ld3NAnfItUAQy3m34+EXvAG2THVoScRCgMK7/e\nGY5lovac2Bhb4zQm4e0baG5sBIqs8qHoeOAEpVukgQKBgQDLGd/CAY5CDrt2T9iW\nZDwwVajIhF/Oe2HaMRyIyyck7Zju1HeyPsjhLjP7iJD8CTEoVRd9YWynAidK8CHG\nF8N7ExrL2yHM2RsuXXsSHSNs/BuIQ3mQo43WG1ijrvezXtWjEursOx6YzncNLjNP\njd2/5HFWXUV6892PTFGh0MxV4QKBgQC+Nukyk5teUBtp5FY71p0pWomxQLs7nd0l\nPlW5MvVHd9Rr40SPpmyliMiTzekFrunMKGgJBxLMTgYr0ciiTLvhK14xGTJtSInf\nP4+TX1gbC1L4tq732gnHU9nd8jgb4p6QZ7n+VkXw1wQYUxOJjA9mkmA/ubfJrUL5\nLfuc05uFjwKBgEw6EM4KsW6/gsI744lGY4SskaV4cVDY4/f1WMVKog1tE2oH2kjO\n4awKID52mhvOA2Ik1aUcLKBd4YtxputnPdnyaKs8OmpczaPQOAGraAFeeaLh2D1d\n9Tz3lIQShisPG9WRoxQ4eBpX2zzaKy3fi+uafKMybIJiBrTiqvy1lgthAoGAKv8C\ni3ouHo2BBNimXXRPpi9e/IAjUoCGooqKmghYxUTi8Vg4ATifSnO20yIyUCSPmKRx\nj8jXiPMCFhmffoBV37oL2pFVgrpo39vgOnHM2qAeqzWwKzpQB4x+rNq5sCPzr7Si\nqEkcGiqgNFdjDS5ptMfVldIHJ0FQ6D5qp7J1byUCgYEAqmOlec282giDn96a3Y2q\nixwdQ+TeEKMHxqi6D5xOspKM/UxRjNDfOx09S7oQEoxyPU8H3TeboO+e+FZr0onM\nib7UIs26Z3eMiTvs1AV/ZoJFnxDOvkQDXs3Y9Q4NE/d/ATNDUky3bQKZ/Rq9WXOj\n1wC/LLKz3AfXB/AVRnZGnuY=\n-----END PRIVATE KEY-----\n",
+  "client_email": "redknight@redknight2020.iam.gserviceaccount.com",
+  "client_id": "108014846276661914598",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/redknight%40redknight2020.iam.gserviceaccount.com"
+}
