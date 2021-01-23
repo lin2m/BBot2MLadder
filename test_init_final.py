@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*- 
 
-################ Server Ver. 23 (2020. 11. 2.) #####################
+################ Server Ver. 25 (2021. 1. 18.) #####################
 
 import sys, os
 import asyncio, discord, aiohttp
@@ -79,6 +79,8 @@ item_Data = None
 tmp_racing_unit = None
 setting_channel_name = None
 
+boss_nick = {}
+
 access_token = os.environ["BOT_TOKEN"]			
 git_access_token = os.environ["GIT_TOKEN"]			
 git_access_repo = os.environ["GIT_REPO"]			
@@ -93,6 +95,62 @@ except:
 g = Github(git_access_token)
 repo = g.get_repo(git_access_repo)
 repo_restart = g.get_repo(git_access_repo_restart)
+
+#초성추출 함수
+def convertToInitialLetters(text):
+	CHOSUNG_START_LETTER = 4352
+	JAMO_START_LETTER = 44032
+	JAMO_END_LETTER = 55203
+	JAMO_CYCLE = 588
+
+	def isHangul(ch):
+		return ord(ch) >= JAMO_START_LETTER and ord(ch) <= JAMO_END_LETTER
+	
+	def isBlankOrNumber(ch):
+		return ord(ch) == 32 or ord(ch) >= 48 and ord(ch) <= 57
+
+	def convertNomalInitialLetter(ch):
+		dic_InitalLetter = {4352:"ㄱ"
+							,4353:"ㄲ"
+							,4354:"ㄴ"
+							,4355:"ㄷ"
+							,4356:"ㄸ"
+							,4357:"ㄹ"
+							,4358:"ㅁ"
+							,4359:"ㅂ"
+							,4360:"ㅃ"
+							,4361:"ㅅ"
+							,4362:"ㅆ"
+							,4363:"ㅇ"
+							,4364:"ㅈ"
+							,4365:"ㅉ"
+							,4366:"ㅊ"
+							,4367:"ㅋ"
+							,4368:"ㅌ"
+							,4369:"ㅍ"
+							,4370:"ㅎ"
+							,32:" "
+							,48:"0"
+							,49:"1"
+							,50:"2"
+							,51:"3"
+							,52:"4"
+							,53:"5"
+							,54:"6"
+							,55:"7"
+							,56:"8"
+							,57:"9"
+		}
+		return dic_InitalLetter[ord(ch)]
+
+	result = ""
+	for ch in text:
+		if isHangul(ch): #한글이 아닌 글자는 걸러냅니다.
+			result += convertNomalInitialLetter(chr((int((ord(ch)-JAMO_START_LETTER)/JAMO_CYCLE))+CHOSUNG_START_LETTER))
+		elif isBlankOrNumber(ch):
+			result += convertNomalInitialLetter(chr(int(ord(ch))))
+
+	return result
 
 def init():
 	global basicSetting
@@ -145,6 +203,8 @@ def init():
 
 	global tmp_racing_unit
 
+	global boss_nick
+
 	command = []
 	tmp_bossData = []
 	tmp_fixed_bossData = []
@@ -160,6 +220,7 @@ def init():
 	fc = []
 	fi = []
 	tmp_racing_unit = []
+	boss_nick = {}
 	
 	inidata = repo.get_contents("test_setting.ini")
 	file_data1 = base64.b64decode(inidata.content)
@@ -290,7 +351,6 @@ def init():
 			pass
 		fi = []
 
-
 	tmp_killtime = datetime.datetime.now().replace(hour=int(5), minute=int(0), second = int(0))
 	kill_Time = datetime.datetime.now()
 
@@ -354,10 +414,20 @@ def init():
 		for i in range(len(tmp_fixed_bossData[j])):
 			tmp_fixed_bossData[j][i] = tmp_fixed_bossData[j][i].strip()
 
+	tmp_boss_name_list : list = []
+	tmp_nick : list = []
+
 	############## 일반보스 정보 리스트 #####################
 	for j in range(bossNum):
+		tmp_nick = []
 		tmp_len = tmp_bossData[j][1].find(':')
-		f.append(tmp_bossData[j][0][11:])         #bossData[0] : 보스명
+		tmp_boss_name_list = tmp_bossData[j][0][11:].split(", ")
+		f.append(tmp_boss_name_list[0])         #bossData[0] : 보스명
+		if len(tmp_boss_name_list) > 1:
+			for nick in tmp_boss_name_list[1:]:
+				tmp_nick.append(nick)
+				tmp_nick.append(convertToInitialLetters(nick))			
+			boss_nick[tmp_boss_name_list[0]] = tmp_nick
 		f.append(tmp_bossData[j][1][10:tmp_len])  #bossData[1] : 시
 		f.append(tmp_bossData[j][2][13:])         #bossData[2] : 멍/미입력
 		f.append(tmp_bossData[j][3][20:])         #bossData[3] : 분전 알림멘트
@@ -713,62 +783,6 @@ async def get_guild_channel_info(bot):
 			voice_channel_id.append(str(voice_channel.id))
 	return text_channel_name, text_channel_id, voice_channel_name, voice_channel_id
 
-#초성추출 함수
-def convertToInitialLetters(text):
-	CHOSUNG_START_LETTER = 4352
-	JAMO_START_LETTER = 44032
-	JAMO_END_LETTER = 55203
-	JAMO_CYCLE = 588
-
-	def isHangul(ch):
-		return ord(ch) >= JAMO_START_LETTER and ord(ch) <= JAMO_END_LETTER
-	
-	def isBlankOrNumber(ch):
-		return ord(ch) == 32 or ord(ch) >= 48 and ord(ch) <= 57
-
-	def convertNomalInitialLetter(ch):
-		dic_InitalLetter = {4352:"ㄱ"
-							,4353:"ㄲ"
-							,4354:"ㄴ"
-							,4355:"ㄷ"
-							,4356:"ㄸ"
-							,4357:"ㄹ"
-							,4358:"ㅁ"
-							,4359:"ㅂ"
-							,4360:"ㅃ"
-							,4361:"ㅅ"
-							,4362:"ㅆ"
-							,4363:"ㅇ"
-							,4364:"ㅈ"
-							,4365:"ㅉ"
-							,4366:"ㅊ"
-							,4367:"ㅋ"
-							,4368:"ㅌ"
-							,4369:"ㅍ"
-							,4370:"ㅎ"
-							,32:" "
-							,48:"0"
-							,49:"1"
-							,50:"2"
-							,51:"3"
-							,52:"4"
-							,53:"5"
-							,54:"6"
-							,55:"7"
-							,56:"8"
-							,57:"9"
-		}
-		return dic_InitalLetter[ord(ch)]
-
-	result = ""
-	for ch in text:
-		if isHangul(ch): #한글이 아닌 글자는 걸러냅니다.
-			result += convertNomalInitialLetter(chr((int((ord(ch)-JAMO_START_LETTER)/JAMO_CYCLE))+CHOSUNG_START_LETTER))
-		elif isBlankOrNumber(ch):
-			result += convertNomalInitialLetter(chr(int(ord(ch))))
-
-	return result
-
 class taskCog(commands.Cog): 
 	def __init__(self, bot):
 		self.bot = bot
@@ -872,6 +886,7 @@ class taskCog(commands.Cog):
 						await self.bot.get_channel(basicSetting[6]).connect(reconnect=True, timeout=5)
 						if self.bot.voice_clients[0].is_connected() :
 							await self.bot.get_channel(channel).send( '< 다시 왔습니다! >', tts=False)
+							self.checker = True
 							print("명치복구완료!")
 					except:
 						await self.bot.get_channel(channel).send( '< 음성채널 접속 에러! >', tts=False)
@@ -930,7 +945,7 @@ class taskCog(commands.Cog):
 				if len(self.bot.voice_clients) == 0 and self.checker and basicSetting[21] == "1":
 					try:
 						await self.bot.get_channel(basicSetting[6]).connect(reconnect=True, timeout=5)
-						print(f"{now.strftime('%Y-%m-%d %H:%M:%S')} : 음성 채널 접속완료!")
+						print(f"{now.strftime('%Y-%m-%d %H:%M:%S')} : 음성 채널 자동 재접속완료!")
 					except discord.errors.ClientException as e:
 						print(f"{now.strftime('%Y-%m-%d %H:%M:%S')} : 음성 자동 접속 부분에서 서버 음성 채널 이미 접속 에러 : {e}")
 						self.checker = False
@@ -940,7 +955,7 @@ class taskCog(commands.Cog):
 						self.checker = False
 						pass
 					if not self.bot.voice_clients[0].is_connected():
-						print(f"{now.strftime('%Y-%m-%d %H:%M:%S')} : 서버 음성 접속 자동 복구실패!")
+						print(f"{now.strftime('%Y-%m-%d %H:%M:%S')} : 음성 채널 자동 복구실패!")
 						await self.bot.get_channel(channel).send( '< 음성 채널 접속에 실패하였습니다. 잠시 후 음성 채널 접속을 시도해주세요! >')
 						self.checker = False
 						pass
@@ -1121,6 +1136,8 @@ class taskCog(commands.Cog):
 											pass
 
 			await asyncio.sleep(1) # task runs every 60 seconds
+
+		self.checker = False
 		
 		for voice_client in self.bot.voice_clients:
 			if voice_client.is_playing():
@@ -1342,7 +1359,7 @@ class mainCog(commands.Cog):
 	async def setting_(self, ctx):	
 		#print (ctx.message.channel.id)
 		if ctx.message.channel.id == basicSetting[7]:
-			setting_val = '보탐봇버전 : Server Ver. 23 (2020. 11. 2.)\n'
+			setting_val = '보탐봇버전 : Server Ver. 25 (2021. 1. 18.)\n'
 			if basicSetting[6] != "" :
 				setting_val += '음성채널 : ' + self.bot.get_channel(basicSetting[6]).name + '\n'
 			setting_val += '텍스트채널 : ' + self.bot.get_channel(basicSetting[7]).name +'\n'
@@ -3705,6 +3722,13 @@ class IlsangDistributionBot(commands.AutoShardedBot):
 			if self.get_channel(basicSetting[7]).id == msg.channel.id:
 				channel = basicSetting[7]
 				message = msg
+
+				for command_str in ["컷", "멍", "예상", "삭제", "메모", "카톡켬", "카톡끔"]:
+					if command_str in message.content:
+						tmp_msg : str = ""
+						for key, value in boss_nick.items():
+							if message.content[:message.content.find(command_str)].strip() in value:
+								message.content = message.content.replace(message.content[:message.content.find(command_str)], key)
 
 				hello = message.content
 
